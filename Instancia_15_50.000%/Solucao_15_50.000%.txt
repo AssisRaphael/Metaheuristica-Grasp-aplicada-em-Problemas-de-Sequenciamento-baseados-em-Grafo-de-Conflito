@@ -1,0 +1,18 @@
+rota: 00 Tinicio = 12.0 Tfim = 18.0
+rota: 01 Tinicio = 36.0 Tfim = 42.0
+rota: 02 Tinicio = 50.0 Tfim = 56.0
+rota: 03 Tinicio = 12.0 Tfim = 15.0
+rota: 04 Tinicio = 36.0 Tfim = 42.0
+rota: 05 Tinicio = 12.0 Tfim = 17.0
+rota: 06 Tinicio = 0.0 Tfim = 12.0
+rota: 07 Tinicio = 0.0 Tfim = 7.0
+rota: 08 Tinicio = 17.0 Tfim = 27.0
+rota: 09 Tinicio = 27.0 Tfim = 36.0
+rota: 10 Tinicio = 53.0 Tfim = 59.0
+rota: 11 Tinicio = 42.0 Tfim = 53.0
+rota: 12 Tinicio = 42.0 Tfim = 50.0
+rota: 13 Tinicio = 20.0 Tfim = 28.0
+rota: 14 Tinicio = 18.0 Tfim = 20.0
+
+
+Makespan = 59.000000
