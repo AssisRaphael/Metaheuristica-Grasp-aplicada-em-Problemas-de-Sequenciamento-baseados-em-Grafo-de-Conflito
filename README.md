@@ -3,6 +3,17 @@
 
 Em diversas aplicações há a necessidade de agendar tarefas em uma linha de produção / transporte e deseja-se obter um agendamento que minimize o tempo gasto para concluí-las. Quando essas tarefas possuem conflitos entre si, isto é, quando algumas delas não podem ser executadas ao mesmo tempo que outras, temos um problema complexo. Uma especificação desse problema ocorre em sistemas de trasportes como terminais portuários que apresentam um sistema de rotas de cargas muito complexo e que possibilita uma grande quantidade de combinações possíveis. O objetivo desse algoritmo é utilizar Heurísticas baseadas em GRASP pra otimizar essas rotas, reduzindo assim o tempo para carregar e descarregar os navios.
 
+## Modo de uso
+
+Este repositório contém instâncias prontas de grafos de conflito e um gerador de grafos. Para criar uma instancia basta executar o programa `geradorGrafos` e informar a quantidade de vértices e a densidade de conflitos. O programa irá gerar uma pasta com vários arquivos, um arquivo .glm que serve para gerar o gráfico vizualmente com o programa [Gephi](https://gephi.org/), uma matriz de adjacencia e um arquivo com as informações dos conflitos.
+
+<img src="img/geradorGrafos_print_resultado.png" alt="Terminal portuário" width="400" style="display: inline-block"/>
+
+O arquivo `main` recebe uma instância de grafo de conflito como entrada e encontra um agendamento das operações com um bom makespan. Para utilizá-lo basta informar o número de vertices e a densidade da instância a ser lida. O programa automaticamente abrirá a pasta dessa isntancia e lerá os arquivos necessários. Assim, para utilizar o arquivo main é preciso antes gerar uma instância com o programa `geradorGrafos`.
+
+<img src="img/grasp_print_resultado.png" alt="Terminal portuário" width="400" style="display: inline-block"/>
+
+
 ## Introdução
 
 O grande avanço no setor de transportes deu inicio a uma verdadeira revolução no processo de globalização. A demanda por capacidade e agilidade em entregas tornou os sistemas de transporte, incluindo o naval, extremamente complexo, demandando diariamente milhares de toneladas de produtos a serem transportados. Os terminais portuários são responsáveis por carregar e descarregar navios de carga e fornecer suporte de armazenamento para intermediar a troca da carga com outro meios de transporte como caminhões e trens. Devido a enorme quantidade de produtos carregados pelos navios a carga e descarga se torna extremamente demorada e torna bastante trabalhoso alocar os pátios de armazenamento para os produtos. Por esses motivos é de grande relevância que sejam desenvolvidos meios de otimizar as rotas dos produtos e o processo de alocação dos pátios, reduzindo o tempo para descarregar os navios. Assim, esses fatores motivam a busca de um algoritmo que gere um bom agendamento de rotas com conflitos.
@@ -37,6 +48,43 @@ Uma vez estabelecido o modelo do problema analisamos o comportamento das soluç�
 Ao revisar a literatura vemos que esse é um problema NP-Completo, isto é, um problema que não pode ser tratado computacionalmente em tempo viável por algoritmos conhecidos. Assim, mudamos nossa estratégia para tentar encontrar uma solução boa em tempo viável ao invés da solução ótima.
 
 ## Algoritmo Proposto
+
+O problema consiste em agendar as rotas de forma a alcançar o menor tempo para sua conclusão evitando os conflitos entre as operações em um tempo viável de execução. Os dados do problema foram representados em um arquivos texto e agrupados de forma a facilitar a leitura do arquivo de instancia no programa. Nesse arquivo há o índice da rota, tempo de execução, número de conflitos e uma lista com os índices das rotas que possui conflito, respectivamente. 
+
+A seguir é ilustrado um exemplo de instancia refente às 10 rotas com 50\% de conflito representado pelo grafo da figura 5.
+
+```
+0 7.00 4 1 4 5 8 
+1 2.00 4 0 4 7 8 
+2 8.00 6 3 4 5 7 8 9 
+3 9.00 7 2 4 5 6 7 8 9 
+4 6.00 6 0 1 2 3 8 9 
+5 3.00 5 0 2 3 7 8 
+6 12.00 3 3 7 9 
+7 1.00 6 1 2 3 5 6 9 
+8 12.00 6 0 1 2 3 4 5 
+9 7.00 5 2 3 4 6 7  
+```
+
+Nesse exemplo, a rota 6 dura 12 horas para ser executada e possui 3 conflitos com as rotas 3, 7 e 9.
+
+De forma semelhante ao arquivo de entrada, retorna-se como saída do algoritmo um arquivo com todas as rotas ordenas e em sequencia seguidas por seus tempos de inicio e término, e o tempo total de execução no final, como mostrado no exemplo abaixo. 
+
+```
+rota: 0 Tinicio = 4.00 Tfim = 11.00
+rota: 1 Tinicio = 1.00 Tfim = 3.00
+rota: 2 Tinicio = 33.00 Tfim = 41.00
+rota: 3 Tinicio = 17.00 Tfim = 26.00
+rota: 4 Tinicio = 11.00 Tfim = 17.00
+rota: 5 Tinicio = 1.00 Tfim = 4.00
+rota: 6 Tinicio = 33.00 Tfim = 45.00
+rota: 7 Tinicio = 0.00 Tfim = 1.00
+rota: 8 Tinicio = 41.00 Tfim = 53.00
+rota: 9 Tinicio = 26.00 Tfim = 33.00
+Makespan = 53.0
+```
+
+O que abstraímos da figura 5 é a relação entre as rotas, ou seja, o quanto elas são dependentes uma das outras. Nesse exemplo de instancia, como as rotas possuem mais de um conflito, a escolha de agendar uma rota para ser realizada primeiro impacta em deixar as outras com conflito em espera. Entretanto, poderia haver um outro agendamento que escolha outra rota para ser realizada no inicio e isso impacte em deixar menos rotas em espera, alcançando um menor makespan. Conhecido o problema vamos algora abordar a solução proposta para o mesmo.
 
 Para o problema abordado é proposto a utilização da meta-heurística GRASP (Greedy Randomized Adaptive Search Procedure). O GRASP consiste em realizar perturbações na solução através de uma busca local de forma a diminuir o makespan. A busca local modifica a solução encontrada na construção utilizando um processo de melhoramento iterativo. Durante o processo de melhoramento da solução observa-se a variação do makespan encontrando e a partir do momento em que a solução encontrada deixa de melhorar, espera-se ter encontrado um mínimo local. Essa perturbação na solução é repetida até que um limite de iterações ou de tempo seja atingido.
 
