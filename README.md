@@ -1,3 +1,5 @@
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
 # Metaheurística Grasp aplicada na resolução de Problemas de Sequenciamento baseados em Grafo de Conflito
 
 Em diversas aplicações há a necessidade de agendar tarefas em uma linha de produção / transporte e deseja-se obter um agendamento que minimize o tempo gasto para concluí-las. Quando essas tarefas possuem conflitos entre si, isto é, quando algumas delas não podem ser executadas ao mesmo tempo que outras, temos um problema complexo. Uma especificação desse problema ocorre em sistemas de trasportes como terminais portuários que apresentam um sistema de rotas de cargas muito complexo e que possibilita uma grande quantidade de combinações possíveis. O objetivo desse algoritmo é utilizar Heurísticas baseadas em GRASP pra otimizar essas rotas, reduzindo assim o tempo para carregar e descarregar os navios.
@@ -14,14 +16,20 @@ Na figura 1 é representado o esquema de um terminal portuário. Os navios atrac
 
 Os portos possuem uma grande quantidade de rotas para transportar os produtos e várias dessas rotas compartilham os mesmos equipamentos, impossibilitando a execução de ambas rotas simultaneamente, como é representado na figura \ref{rotas}. Nesse caso, um dos produtos deve aguardar o outro ser transportado para em seguida poder continuar a sua rota.
 
-**imagens porto**
+![Terminal portuário](img/TerminalPortuario.png)
+![Rotas com conflito](img/RotasConflito.png)
 
 Além da complexidade em evitar os conflitos é desejável gerar um agendamento em que ocorra menos trocas de produtos nos pátios de armazenamento. Isto ocorre pois em portos que trabalham com produtos a granel, como soja, milho e demais grãos, é preciso lavar os pátios para armazenar outro produto no local. O mesmo ocorre com produtos do mesmo tipo, mas de purezas diferentes.
 
 ## Modelamento do problema
 
 O modelo matemático proposto utiliza um grafo de conflito para representar as incompatibilidades das rotas, onde os vértices representam as rotas dos produtos e as arestas representam que existe um conflito entre elas. Os conflitos serão medidos em termos de densidade e essa medida é feita calculando a razão entre o número de arestas no grafo pelo número de arestas de um grafo completo com o mesmo número de vértices. 
-$densidade = { 2 * arestas \over {vertices \times (vertices - 1)}}$
+
+$$ densidade = { 2 * arestas \over {vertices \times (vertices - 1)}} $$
+
+A figura abaixo ilustra um grafo de conflitos com 10 vértices e 50% de densidade.
+
+![Grafo de conflitos com 10 vértices e 50% de densidade](img/grafo10V50P.png)
 
 Uma vez estabelecido o modelo do problema analisamos o comportamento das soluções para diferentes quantidades de rotas e conflitos. Variando-se o número de rotas percebemos um aumento na complexidade do problema, pois assim mais possibilidades de agendamento serão possíveis. Analisando o problema quando se varia a densidade de conflitos notamos um pico na complexidade do problema para 50\% de conflito. Quando a densidade de conflitos é muito pequena ou muito grande o agendamento é mais simples. No caso de não haver conflitos todas as rotas podem ser realizadas simultaneamente e o makespan seria o tempo demandado pela rota mais demorada. Por outro lado, no caso em que todas as rotas tiverem conflitos entre si todas as possibilidades de agendamento possuirão o mesmo makespan, a soma dos tempos de execução de todas as rotas, pois só poderá haver uma única rota em funcionamento a cada momento, tornando trivial a solução. Esse comportamento de mantém para densidades não muito distantes dos extremos. Por esse motivo o maior desafio se encontra em realizar agendamentos em que a densidade de conflitos entre as rotas é intermediária.
 
