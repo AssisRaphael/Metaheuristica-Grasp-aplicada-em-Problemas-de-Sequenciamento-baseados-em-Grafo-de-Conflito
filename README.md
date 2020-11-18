@@ -5,11 +5,11 @@ Em diversas aplicações há a necessidade de agendar tarefas em uma linha de pr
 
 ## Modo de uso
 
-Este repositório contém instâncias prontas de grafos de conflito e um gerador de grafos. Para criar uma instancia basta executar o programa `geradorGrafos` e informar a quantidade de vértices e a densidade de conflitos. O programa irá gerar uma pasta com vários arquivos, um arquivo .glm que serve para gerar o gráfico vizualmente com o programa [Gephi](https://gephi.org/), uma matriz de adjacencia e um arquivo com as informações dos conflitos.
+Este repositório contém instâncias prontas de grafos de conflito e um gerador de grafos. Para criar uma instancia basta executar o programa `geradorGrafos` e informar a quantidade de vértices e a densidade de conflitos. O programa irá gerar uma pasta com vários arquivos, um arquivo .glm que serve para gerar o gráfico vizualmente com o programa [Gephi](https://gephi.org/), uma matriz de adjacencia e um arquivo com as informações dos conflitos. A densidade informada para a criação do grafo é utilizada como parâmetro para gerar o grafo, porém possui uma margem de erro de +/- 6%, assim, ao informar a densidade como 10% o resultado pode ser de 4 a 16 %.
 
 <img src="img/geradorGrafos_print_resultado.png" alt="Terminal portuário" width="400" style="display: inline-block"/>
 
-O arquivo `main` recebe uma instância de grafo de conflito como entrada e encontra um agendamento das operações com um bom makespan. Para utilizá-lo basta informar o número de vertices e a densidade da instância a ser lida. O programa automaticamente abrirá a pasta dessa isntancia e lerá os arquivos necessários. Assim, para utilizar o arquivo main é preciso antes gerar uma instância com o programa `geradorGrafos`.
+O arquivo `main` recebe uma instância de grafo de conflito como entrada e encontra um agendamento das operações com um bom makespan. Para utilizá-lo basta informar o número de vertices e a densidade da instância a ser lida. O programa automaticamente abrirá a pasta dessa instância e lerá os arquivos necessários. Assim, para utilizar o arquivo main é preciso antes gerar uma instância com o programa `geradorGrafos`. Ao final o programa gerará um arquivo contendo uma lista com todas as operações, seus tempos de inicio e fim. Na última linha do arquivo contém o makespan.
 
 <img src="img/grasp_print_resultado.png" alt="Terminal portuário" width="400" style="display: inline-block"/>
 
