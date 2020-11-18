@@ -35,8 +35,6 @@ Além da complexidade em evitar os conflitos é desejável gerar um agendamento 
 
 O modelo matemático proposto utiliza um grafo de conflito para representar as incompatibilidades das rotas, onde os vértices representam as rotas dos produtos e as arestas representam que existe um conflito entre elas. Os conflitos serão medidos em termos de densidade e essa medida é feita calculando a razão entre o número de arestas no grafo pelo número de arestas de um grafo completo com o mesmo número de vértices. 
 
-$$ densidade = { 2 * arestas \over {vertices \times (vertices - 1)}} $$
-
 <img src="https://latex.codecogs.com/svg.latex?\Large&space;densidade={2*arestas\over{vertices\times(vertices-1)}}" title="\Large densidade={2*arestas\over{vertices\times(vertices-1)}}" />
 
 A figura abaixo ilustra um grafo de conflitos com 10 vértices e 50% de densidade.
